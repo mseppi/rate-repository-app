@@ -89,6 +89,9 @@ const SignInForm = ({ onSubmit }) => {
     );
 };
 
+export const SignInContainer = ({ onSubmit }) => {
+    return <SignInForm onSubmit={onSubmit} />;
+};
 
 const SignIn = () => {
     const [signIn] = useSignIn();
