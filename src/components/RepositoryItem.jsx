@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Pressable, Linking } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
 import RepositoryStats from './RepositoryStats';
@@ -34,11 +34,25 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 15,
   },
+  button: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 4,
+    marginTop: 15,
+    alignItems: 'center',
+  },
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, showGitHubButton = false }) => {
+  const handleOpenGitHub = () => {
+    if (item.url) {
+      Linking.openURL(item.url);
+    }
+  };
+
   return (
-  <View style={styles.container} testID="repositoryItem">
+    <View style={styles.container} testID="repositoryItem">
       <View style={styles.headerContainer}>
         <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
         <View style={styles.infoContainer}>
@@ -59,6 +73,14 @@ const RepositoryItem = ({ item }) => {
       </View>
 
       <RepositoryStats item={item} />
+      
+      {showGitHubButton && (
+        <Pressable style={styles.button} onPress={handleOpenGitHub}>
+          <Text color="textTertiary" fontWeight="bold">
+            Open in GitHub
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
